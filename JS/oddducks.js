@@ -5,6 +5,7 @@ function productCreate(name) {
     this.name = name;
     this.image = `/IMG/${name}.jpg`;
     this.clicks = 0;
+    this.views = 0
 }
 
 let products = [
@@ -39,47 +40,41 @@ function randomImage() {
 
 let uniqueImageStore = [];
 
+let buttons = [document.getElementsByClassName('butt')];
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', createNewImages);
+}
+
 function UniqueImageSelect() {
     while (uniqueImageStore.length < 3) {
-        let randomIndex = randomImage();
-        while (!uniqueImageStore.includes(productCreate[randomIndex])) {
-            uniqueImageStore.push(productCreate[randomIndex]);
+        while (!uniqueImageStore.includes(productCreate(uniqueImageStore)) {
+            uniqueImageStore.push(productCreate(uniqueImageStore));
         }
     }
 }
 
-console.log(uniqueImageStore);
-
-
-let buttons = [document.getElementById('butt1'), document.getElementById('butt2'), document.getElementById('butt3')];
-for (let i=0; i < buttons.length; i++){
-    buttons[i].addEventListener('click', createNewImages);
-}
+function createRandomImages(event) {
+    let display = 0;
+    for (let i = 0; i < uniqueImageStore.length; i++){ 
+        display = uniqueImageStore[i];
+        display.++;
 
 
 
-function createNewImages (){
-console.table(uniqueImageStore);
-let display = 0;
-for (let i = 0; i < uniqueImageStore.length; i++){
-    display = uniqueImageStore[i];
-    let image = document.getElementById(`image${i+1}`)
-    image.src = display.image;
-    image.name = display.name;
-    display.clicked++;
-
-
-}
-
-    currentRound++;
-    if (currentRound === 25){
-        buttons.removeEventListener('click', createNewImages);
     }
-
 }
 
-UniqueImageSelect();
-uniqueImageStore();
+
+//     currentRound++;
+//     if (currentRound === 25){
+//         buttons.removeEventListener('click', createNewImages);
+//     }
+
+// }
+
+// UniqueImageSelect();
+// uniqueImageStore();
 
 
 
