@@ -31,7 +31,7 @@ let products = [
 ];
 
 function initializeLocalStorage() {
-    if (!JSON.parse(localStorage.getItem('products'))) {  //localstorage is looking to see if the item 'products' exists; json.parse xforms from string to valuereturn is either null or truthy
+    if (!JSON.parse(localStorage.getItem('products'))) {  //localstorage is looking to see if the item 'products' exists; json.parse xforms from string to value; return is either null or truthy but null is a string so you have to parse it to value
         console.log('initialized local storage') //console prompt letting me know local storage is initialized
         localStorage.setItem('products', JSON.stringify(products)) //creating the item as string from array products
     }
@@ -50,7 +50,7 @@ initializeLocalStorage()
 //I liked this one. Determines local round by creating array from item 'products' in local storage then totals the clicks.
 function currentRoundFunc() {
     let localArray = JSON.parse(localStorage.getItem('products')) //sets localArray
-    console.log(JSON.parse(localStorage.getItem('products')))//
+    console.log(localArray)//
     let total = 0;
     for (let i = 0; i < products.length; i++) {
         total += localArray[i].clicks
@@ -59,7 +59,7 @@ function currentRoundFunc() {
 }
 
 currentRoundFunc()
-//creates a random number between 0 and the length of the array products, in this case 18(rounds down + 0 = 19)
+//creates a random number between 0 and the length of the array products
 function randomImage() {
     return Math.floor(Math.random() * products.length);
 }
@@ -80,7 +80,7 @@ function UniqueImageSelect() {
         }
     }
 
-    localStorage.setItem('previousIndexes', JSON.stringify(numbers)) //sets numbers array as item in local storage
+    localStorage.setItem('previousIndexes', JSON.stringify(numbers)) //creates localstorage item previousindexes
     let localArray = JSON.parse(localStorage.getItem('products')) //setting localArray as 'products' item parsed to array
     console.log(numbers)
     //for each element in local array (created from local storage 'products' item) it adds 1 to views for each element in the numbers array
@@ -133,7 +133,7 @@ results.addEventListener('click', () => {
 });
 
 function getResults() {
-    if (currentRoundFunc() >= 26) {
+    if (currentRoundFunc() >= 0) {//so this used to not display results until there were 26 rounds. I didnt like the look of it and putting a zero here was easier than rewriting the code. Lazy? maybe. But its there if i want to reinitialize the restriction so...
         let ul = document.createElement('ul');
         results.appendChild(ul);
         let localArray = JSON.parse(localStorage.getItem('products'))
@@ -171,8 +171,8 @@ function renderChart() {
             {
                 label: '# of Times Shown',
                 data: views,
-                backgroundColor:'rgba(54, 162, 235, 0.2)',
-                borderColor:'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
             }
             ],
@@ -184,23 +184,21 @@ function renderChart() {
                 },
                 delay: (context) => {
                     let delay = 0;
-                    if (context.type === "data" && context.mode === "default" && !delayed) {
+                    if (context.type === "data" && context.mode === "default" && !delayed){
                         delay = context.dataIndex * 300 + context.datasetIndex * 100;
                     }
                     return delay;
                 }
             },
             scales: {
-                x:{
-                    stacked: true,
-                    ticks:{
+                x: {
+                    ticks: {
                         autoSkip: false,
                         maxRotation: 90,
-                        minRotation: 90,
+                        minRotation: 90
                     }
-                },    
+                },
                 y: {
-                    stacked: true,
                     beginAtZero: true
                 }
             }
